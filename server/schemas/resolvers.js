@@ -1,4 +1,4 @@
-const { User, Book } = require("../models");
+const { User } = require("../models");
 const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
@@ -19,9 +19,9 @@ const resolvers = {
         throw new AuthenticationError("No user found with this email address");
       }
 
-      const correctPw = user.isCorrectPassword(password);
+      const correctPw = await user.isCorrectPassword(password);
 
-      if (!isCorrectPassword) {
+      if (!correctPw) {
         throw new AuthenticationError("Incorrect credentials");
       }
 
