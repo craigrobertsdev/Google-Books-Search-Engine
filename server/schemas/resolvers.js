@@ -34,17 +34,21 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    saveBook: async (parent, { bookInput }, context) => {
-      if (!context.user) {
+    saveBook: async (parent, { bookId, authors, description, title, image, link }, context) => {
+      console.log(bookId, authors, description, title, image, link);
+      if (!context?.user) {
         throw new AuthenticationError("You need to be logged in to save books");
       }
-      const updatedUser = await User.findOneAndUpdate(
+
+      if (!description) {
+        description = " ";
+      }
+
+      return User.findOneAndUpdate(
         { _id: context.user._id },
-        { $addToSet: { savedBooks: bookInput } },
+        { $addToSet: { savedBooks: { authors, description, bookId, title, image, link } } },
         { new: true, runValidators: true }
       );
-
-      return updatedUser;
     },
     removeBook: async (parent, { bookId }, context) => {
       if (!context.user) {
