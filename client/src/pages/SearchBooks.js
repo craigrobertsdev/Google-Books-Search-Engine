@@ -23,7 +23,7 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  const [saveBook, { error }] = useMutation(SAVE_BOOK);
+  const [saveBook, { loading, error }] = useMutation(SAVE_BOOK);
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -51,8 +51,6 @@ const SearchBooks = () => {
         link: book.selfLink,
       }));
 
-      console.log(bookData);
-
       setSearchedBooks(bookData);
       setSearchInput("");
     } catch (err) {
@@ -73,19 +71,12 @@ const SearchBooks = () => {
     }
 
     try {
-      // const response = await saveBook(bookToSave, token);
-      console.log(bookToSave);
       const { data } = await saveBook({ variables: { ...bookToSave } });
-
-      // if (!response.ok) {
-      //   throw new Error("something went wrong!");
-      // }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
-      console.log("logging caught error");
-      console.error(JSON.stringify(error, null, 2));
+      console.error(JSON.stringify(err, null, 2));
     }
   };
 

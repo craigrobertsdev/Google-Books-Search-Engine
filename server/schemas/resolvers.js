@@ -7,7 +7,7 @@ const resolvers = {
     // finds the logged in user based on the passed token's user _id if it exists
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user.id }).populate("savedBooks");
+        return await User.findOne({ _id: context.user._id }).populate("savedBooks");
       }
     },
   },
