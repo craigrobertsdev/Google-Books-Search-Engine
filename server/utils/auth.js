@@ -29,6 +29,7 @@ module.exports = {
 
     return req;
   },
+  // used by the sign up and login resolvers to create a JWT
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
 

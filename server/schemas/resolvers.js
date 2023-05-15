@@ -35,11 +35,12 @@ const resolvers = {
       return { token, user };
     },
     saveBook: async (parent, { bookId, authors, description, title, image, link }, context) => {
-      console.log(bookId, authors, description, title, image, link);
-      if (!context?.user) {
+      // if there is a user attached to context, we know they have already been authenticated via the authMiddleware function
+      if (!context.user) {
         throw new AuthenticationError("You need to be logged in to save books");
       }
 
+      // added to ensure description has a value (some books don't) as the Book model requires a value
       if (!description) {
         description = " ";
       }
@@ -54,6 +55,7 @@ const resolvers = {
       if (!context.user) {
         throw new AuthenticationError("You need to be logged in to delete books");
       }
+
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
         { $pull: { savedBooks: { bookId } } },

@@ -8,8 +8,8 @@ import { REMOVE_BOOK } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 
 const SavedBooks = () => {
-  const { loading, getMeError, data: userData } = useQuery(GET_ME);
-  const [deleteBook, { deleteError }] = useMutation(REMOVE_BOOK);
+  const { loading, error, data: userData } = useQuery(GET_ME);
+  const [deleteBook] = useMutation(REMOVE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -20,6 +20,7 @@ const SavedBooks = () => {
     }
 
     try {
+      // forward the attached bookId to the server to remove from the user's savedBooks collection
       const { data } = await deleteBook({
         variables: { bookId },
       });
@@ -36,12 +37,8 @@ const SavedBooks = () => {
     return <h2>Loading...</h2>;
   }
 
-  if (getMeError) {
-    return <h2>Error: {getMeError.message}</h2>;
-  }
-
-  if (userData) {
-    console.log(userData.me);
+  if (error) {
+    return <h2>Error: {error.message}</h2>;
   }
 
   return (

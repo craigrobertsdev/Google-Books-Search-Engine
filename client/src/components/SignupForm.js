@@ -15,7 +15,7 @@ const SignupForm = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   // create function to add user via graphql mutation
-  const [addUser, { error, data }] = useMutation(ADD_USER);
+  const [addUser] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -33,8 +33,10 @@ const SignupForm = () => {
     }
 
     try {
+      // use the addUser mutation to create a new user object in our database
       const { data } = await addUser({ variables: { ...userFormData } });
 
+      // create a login token for the new user.
       Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
