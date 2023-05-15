@@ -1,4 +1,4 @@
-# google-book-search
+# Google Books Search Engine - refactored to GraphQL
 
 Search for your favourite books via the Google Books API
 
