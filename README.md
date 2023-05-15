@@ -25,7 +25,7 @@ This full-stack MERN application was initially created using a REST API, but has
 This application is deployed via Heroku at https://agile-thicket-64905.herokuapp.com/.
 
   <p align="center">
-  <img src="https://github.com/craigrobertsdev/google-books-api/blob/main/assets/images/screenshot.png">
+  <img src="https://github.com/craigrobertsdev/Google-Books-Search-Engine/blob/main/assets/images/screenshot.png">
   </p>
 
 ## Contributing
